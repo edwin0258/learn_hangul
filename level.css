@@ -1,0 +1,57 @@
+body{
+  border:1px solid;
+  padding:10px;
+}
+.progress_bar{
+  width:0px;
+  height:5px;
+  background:#FDE74C;
+  transition:all .5s;
+}
+.learning_bar{
+  width:0px;
+  height:5px;
+  background:#E55934;
+  transition:all .5s;
+}
+#letter{
+  clear:both;
+  width:100%;
+  background-color:rgba(255,255,255,.2);
+  padding:20px 0px;
+  font-size:30px;
+}
+input{
+  width:calc(100% - 4px);
+  height:25px;
+  margin-bottom:20px;
+  z-index:1;
+}
+#letter_submit{
+  background:#9BC53D;
+  border:1px solid black;
+  box-shadow:inset 2px 2px rgba(255,255,255,.4), inset -2px -2px rgba(0,0,0,.3);
+  z-index:1;
+  transition:all .5s;
+  height:25px;
+  box-sizing:border-box;
+  padding-top:5px;
+  cursor:pointer;
+  margin-bottom:10px;
+}
+
+
+
+/* for correct and incorrect animations */
+
+@keyframes correct_animation {
+  0%{
+    background-color:white;
+  }
+  50%{
+    background-color:#9BC53D;
+  }
+  99%{
+    background-color:white;
+  }
+}

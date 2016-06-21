@@ -1,0 +1,26 @@
+h1{
+  color:white;
+  background-color:#E55934;
+  padding:20px;
+  box-shadow:inset 0px -5px rgba(0,0,0,.3);
+  border:1px solid rgba(0,0,0,.3);
+  font-size:17px;
+  letter-spacing:1.1px;
+  margin-bottom:0px;
+}
+ul{
+  list-style-type:none;
+  margin:0px;
+  padding:20px 0px;
+  background-color:rgba(255,255,255,.3);
+}
+ul li{
+  display:inline-block;
+}
+ul a{
+  background-color:#FDE74C;
+  padding:5px;
+  margin:0px 5px;
+  
+  cursor:pointer;
+}
