@@ -41,16 +41,17 @@ function determineLevel(){
 //to test user.
 function pickLetter(){
   if(level == 1){
-  rdm_letter = hangul_keys[Math.floor(Math.random() * (13 - 0) + 0)];
-  document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    document.querySelector('#user_submission').placeholder = "";
+    rdm_letter = hangul_keys[Math.floor(Math.random() * (13 - 0) + 0)];
+    document.querySelector('#letter').innerHTML = hangul[rdm_letter];
   }
   if(level == 2){
-  rdm_letter = hangul_keys[Math.floor(Math.random() * (26 - 13) + 13)];
-  document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    rdm_letter = hangul_keys[Math.floor(Math.random() * (26 - 13) + 13)];
+    document.querySelector('#letter').innerHTML = hangul[rdm_letter];
   }
   if(level == 3){
-  rdm_letter = hangul_keys[Math.floor(Math.random() * (40 - 26) + 26)];
-  document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    rdm_letter = hangul_keys[Math.floor(Math.random() * (40 - 26) + 26)];
+    document.querySelector('#letter').innerHTML = hangul[rdm_letter];
   }
 }
 
@@ -58,6 +59,7 @@ function initiateLearning(count){
   if(level == 1){
     //not so random here aha
     rdm_letter = hangul_keys[count];
+    document.querySelector('#user_submission').placeholder = rdm_letter;
     document.querySelector('#letter').innerHTML = hangul[rdm_letter] + " = " + rdm_letter;
   }
   if(level == 2){
@@ -210,6 +212,7 @@ window.onload = function(){
   playAudio();
   document.querySelector('#letter_submit').addEventListener('click',checkSubmission);
   document.querySelector('#stuck').addEventListener('click',resetProgress);
+  document.querySelector('#reset').addEventListener('click',resetProgress);
   document.querySelector('#user_submission').focus();
   //for input field not connected to form
   document.querySelector('#user_submission').addEventListener('keypress', function(e){

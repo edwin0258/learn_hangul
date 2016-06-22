@@ -1,6 +1,13 @@
 body{
   border:1px solid;
+  box-shadow:0px 0px 4px 4px rgba(0,0,0,.2);
   padding:10px;
+}
+#reset{
+  cursor:pointer;
+}
+#reset:hover{
+  color:#E55934;
 }
 .progress_bar{
   width:0px;
@@ -20,12 +27,21 @@ body{
   background-color:rgba(255,255,255,.2);
   padding:20px 0px;
   font-size:30px;
+  margin:0px;
+  margin-top:30px;
+
+  box-shadow:inset 0px -5px rgba(0,0,0,.4);
 }
 input{
-  width:calc(100% - 4px);
+  width:100%;
+  box-shadow:inset 0px 4px 4px rgba(0,0,0,.1);
   height:25px;
   margin-bottom:20px;
   z-index:1;
+  outline:none;
+  padding-left:5px;
+  font-size:16px;
+  box-sizing:border-box;
 }
 #letter_submit{
   background:#9BC53D;
@@ -33,14 +49,14 @@ input{
   box-shadow:inset 2px 2px rgba(255,255,255,.4), inset -2px -2px rgba(0,0,0,.3);
   z-index:1;
   transition:all .5s;
-  height:25px;
+  height:35px;
   box-sizing:border-box;
-  padding-top:5px;
+  padding-top:10px;
   cursor:pointer;
-  margin-bottom:10px;
+  margin-bottom:20px;
 }
 #stuck{
-  margin-top:10px;
+  margin-top:20px;
   background-color:#FA7921;
   display:none;
   box-shadow:inset 2px 2px rgba(255,255,255,.4), inset -2px -2px rgba(0,0,0,.3);
