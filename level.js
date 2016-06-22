@@ -21,7 +21,7 @@ var guess = "";
 level = 0;
 var hangul_keys = Object.keys(hangul);
 learning_count = 0; //for learning phase
-
+tries = 0; //counting letter attempts
 
 function determineLevel(){
   if($("#one").length){
@@ -77,49 +77,67 @@ function checkSubmission(){
   
   var user_input = document.querySelector('#user_submission');
   guess = user_input.value;
+  
+  //if correctly identified hangul letter
   if(hangul[rdm_letter] == hangul[guess]){
     
-    
-    
+    //reset tries
+    $("#stuck").fadeOut();
+    tries = 0;
     //change color back if was incorrect
     $("#letter_submit").css("background","#9BC53D");
     //clear input
     user_input.value = "";
     
-    //pick a new rdm letter and play it's audio
+    
     if(localStorage[level] == 'practicing' || localStorage[level] == 'completed'){
       //mark as correct in localstorage for progress
       if(localStorage.getItem(hangul[rdm_letter]) !== undefined){
         localStorage.setItem(hangul[rdm_letter], level);
         getProgress();
       }
-      pickLetter(learning_count);
+      
+      
+      //pick a new rdm letter and play it's audio
+      pickLetter();
       playAudio();
     }
+    
+    // if in learning phase
     else{
       learning_count+=1;
       if(level != 3){
-        var words = 13;
+        words = 13;
       }
       else{
-        var words = 14;
+        words = 14;
       }
-      worth = (100 / words) * learning_count
+      worth = (100 / words) * learning_count;
       document.querySelector('.learning_bar').style.width = worth + "%";
+      
+      //determine if the user has learnt all words in level
       if(learning_count % words === 0){
-        alert("learning complete")
+        alert("learning complete");
         localStorage.setItem(level, 'practicing');
         pickLetter();
       }
       else{
+        //continue learning advancing to next letter, hence learning_count+=1;
         initiateLearning(learning_count);
         playAudio();
       }
     }
   }
+  
   else{
     //if wrong change color of submit btn
     $("#letter_submit").css("background","#E55934");
+    if(localStorage[level] == 'practicing' || localStorage[level] == 'completed'){
+      tries+=1;
+      if(tries >= 3){
+        $("#stuck").fadeIn();
+      }
+    }
   }
   user_input.focus();
 }
@@ -134,7 +152,7 @@ function getProgress(){
     worth = (100 / 14);
   }
   for(var x in localStorage){
-    if( localStorage[x] == level){
+    if(localStorage[x] == level){
       progress+=worth;
     }
   }
@@ -142,7 +160,7 @@ function getProgress(){
   document.querySelector('.progress_bar').style.width = progress + "%";
   
   if(Math.round(progress) == 100){
-    localStorage.setItem(level, 'completed')
+    localStorage.setItem(level, 'completed');
   }
 }
 
@@ -151,10 +169,28 @@ function playAudio(){
   audio.play();
 }
 function setPhase(){
-  if(localStorage[level] == undefined){
+  if(localStorage[level] === undefined){
     localStorage.setItem(level, 'learning');
   }
 }
+
+function resetProgress(){
+  localStorage.removeItem(level);
+  for(var x in localStorage){
+    if(localStorage[x] == level){
+      localStorage.removeItem(x);
+    }
+  }
+  setPhase();
+  getProgress();
+  learning_count = 0;
+  initiateLearning(0);
+  tries = 0;
+  document.querySelector('.learning_bar').style.width = "0%";
+  document.querySelector('#user_submission').focus();
+  $("#stuck").fadeOut();
+}
+
 
 window.onload = function(){
   //Determine what phase the user is on a paticular level
@@ -173,6 +209,7 @@ window.onload = function(){
   
   playAudio();
   document.querySelector('#letter_submit').addEventListener('click',checkSubmission);
+  document.querySelector('#stuck').addEventListener('click',resetProgress);
   document.querySelector('#user_submission').focus();
   //for input field not connected to form
   document.querySelector('#user_submission').addEventListener('keypress', function(e){
