@@ -22,6 +22,7 @@ level = 0;
 var hangul_keys = Object.keys(hangul);
 learning_count = 0; //for learning phase
 tries = 0; //counting letter attempts
+letter_history = [] //record past few letters to avoid to many repeats
 
 function determineLevel(){
   if($("#one").length){
@@ -41,17 +42,42 @@ function determineLevel(){
 //to test user.
 function pickLetter(){
   if(level == 1){
+    //fix placeholder issue
     document.querySelector('#user_submission').placeholder = "";
+    
     rdm_letter = hangul_keys[Math.floor(Math.random() * (13 - 0) + 0)];
-    document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    if(letter_history.indexOf(rdm_letter) != -1){
+      pickLetter(); //recursion ftw :)
+    }
+    else{
+      letter_history.push(rdm_letter);
+      manageHistory();
+      document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    }
+    
   }
   if(level == 2){
+    
     rdm_letter = hangul_keys[Math.floor(Math.random() * (26 - 13) + 13)];
-    document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    if(letter_history.indexOf(rdm_letter) != -1){
+      pickLetter();
+    }
+    else{
+      letter_history.push(rdm_letter);
+      manageHistory();
+      document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    }
   }
   if(level == 3){
     rdm_letter = hangul_keys[Math.floor(Math.random() * (40 - 26) + 26)];
-    document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    if(letter_history.indexOf(rdm_letter) != -1){
+      pickLetter();
+    }
+    else{
+      letter_history.push(rdm_letter);
+      manageHistory();
+      document.querySelector('#letter').innerHTML = hangul[rdm_letter];
+    }
   }
 }
 
@@ -122,6 +148,7 @@ function checkSubmission(){
         alert("learning complete");
         localStorage.setItem(level, 'practicing');
         pickLetter();
+        playAudio();
       }
       else{
         //continue learning advancing to next letter, hence learning_count+=1;
@@ -170,6 +197,13 @@ function playAudio(){
   var audio = new Audio('../audio/' + rdm_letter.toString() + '.mp3');
   audio.play();
 }
+
+function manageHistory(){
+  if(letter_history.length >= 4){
+    letter_history.shift();
+  }
+}
+
 function setPhase(){
   if(localStorage[level] === undefined){
     localStorage.setItem(level, 'learning');
@@ -191,6 +225,7 @@ function resetProgress(){
   document.querySelector('.learning_bar').style.width = "0%";
   document.querySelector('#user_submission').focus();
   $("#stuck").fadeOut();
+  
 }
 
 
